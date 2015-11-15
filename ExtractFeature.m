@@ -1,1 +1,3 @@
-function [feature]= ExtractFeature[X]
+function [feature]= ExtractFeature(X)
+
+feature=X;
