@@ -1,7 +1,0 @@
-function [Model]= train(X,Y) 
-%Model is the whole feature dataset in K-nearest-neighbor
-
-feature= ExtractFeature(X); % feature is nData*nFeature matrix
-nData= leng
-
-

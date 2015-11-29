@@ -1,10 +1,10 @@
 function [Model]=train(X,Y)
 %Model is the whole feature dataset in K-nearest-neighbor
 
-load('Manga/TrainBagOfSift.mat');
+load('Model.mat');
 %feature= ExtractFeature(X); % feature is nData*nFeature matrix
-nData= 5000;
-nFeature= 50;
+nData= size(TrainFeatures,1);
+nFeature= size(TrainFeatures,2);
 
 Model= zeros(nData,nFeature+1);
 
@@ -13,6 +13,6 @@ for i= 1:nData
     Model(i,nFeature+1)= TrainLabel(i);
 end
 
-save('Model.mat','Model');
+save('newModel.mat','Model','vocab');
 
 

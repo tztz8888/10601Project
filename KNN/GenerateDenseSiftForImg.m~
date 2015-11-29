@@ -1,0 +1,3 @@
+function [descrp] = GenerateDenseSiftForImg(data)
+
+end
