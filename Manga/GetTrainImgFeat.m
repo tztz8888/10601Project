@@ -25,6 +25,6 @@ function [] = GetTrainImgFeat(numTrainBatch)
         clear data;
         clear labels;       
     end
-    save('TrainBagOfSift','TrainLabel','TrainFeatures');
+    save('Model','TrainLabel','TrainFeatures','vocab');
 
 end
