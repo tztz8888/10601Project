@@ -1,4 +1,4 @@
-function [Model]=train(X,Y)
+function [Model]=train()
 %Model is the whole feature dataset in K-nearest-neighbor
 
 load('Model.mat');

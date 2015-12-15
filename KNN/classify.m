@@ -1,18 +1,20 @@
-function [Y]= classify()
+function [rst]= classify(Model,X)
 %k nearest neighbor
-K=20;    %tune to find the best
+K=12;    %tune to find the best
 nLabel=10; % given
 
 load('newModel.mat');
 load('small_data_batch_5.mat');
-
+%load('Model.mat');
 feature= ExtractFeatureForImg(data,vocab);
+%feature= ExtractFeatureForImg(X,vocab);
 
 nTest= length(feature(:,1) );
 nFeature= length(feature(1,:) );
 nTrain= length(Model(:,1));
-
 distMetrics= zeros(nTest,nTrain);
+Y= zeros(nTest,1);
+
 for i=1:nTest
     for j=1:nTrain
          distMetrics(i,j)= L2Distance( feature(i,:),Model(j,1:nFeature) );
@@ -50,5 +52,6 @@ for i=1:nTest
     end
     
     Y(i)= labelMaxCount;
-    
 end
+
+rst= sum(Y==labels)/nTest;
