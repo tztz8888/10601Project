@@ -1,4 +1,4 @@
-function [ featureVecs ] = ExtractFeatureForImg( data ,vocab)
+1function [ featureVecs ] = ExtractFeatureForImg( data ,vocab)
 % Extract a 50-dimension feature for each img
 % input:
 %       data - a N*3072 img data matrix
