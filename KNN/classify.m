@@ -1,12 +1,13 @@
 function [rst]= classify(Model,X)
 %k nearest neighbor
-K=12;    %tune to find the best
+K=5;    %tune to find the best
 nLabel=10; % given
 
 load('newModel.mat');
 load('small_data_batch_5.mat');
 %load('Model.mat');
-feature= ExtractFeatureForImg(data,vocab);
+feature = GetTrainImgHOGFeat(5);
+%feature= ExtractFeatureForImg(data,vocab);
 %feature= ExtractFeatureForImg(X,vocab);
 
 nTest= length(feature(:,1) );
@@ -14,13 +15,14 @@ nFeature= length(feature(1,:) );
 nTrain= length(Model(:,1));
 distMetrics= zeros(nTest,nTrain);
 Y= zeros(nTest,1);
-
+disp 'bbb'
 for i=1:nTest
     for j=1:nTrain
          distMetrics(i,j)= L2Distance( feature(i,:),Model(j,1:nFeature) );
     end
+    i
 end
-
+disp 'aaa'
 for i=1:nTest
     flagKNN= zeros(K,1); % list of the first K nearest neibor Label
     distKNN=zeros(K,1); %list of the first K nearest neibor distance
@@ -52,6 +54,7 @@ for i=1:nTest
     end
     
     Y(i)= labelMaxCount;
+    disp('one classified')
 end
 
 rst= sum(Y==labels)/nTest;
