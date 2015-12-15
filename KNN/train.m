@@ -13,6 +13,6 @@ for i= 1:nData
     Model(i,nFeature+1)= TrainLabel(i);
 end
 
-save('newModel.mat','Model','vocab');
+save('newModel.mat','Model');
 
 
