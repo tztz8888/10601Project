@@ -1,5 +1,4 @@
-function [Model]=train(X,Y)
-
+function [Model]=train()
 %this is neuralNetwork train
 
 load('Model.mat');
@@ -13,7 +12,7 @@ feature= TrainFeatures;
 
 %define neural network
 nInput= nFeature; % 496 as extracted
-nHidden= 100;    % tune this value
+nHidden= 200;    % tune this value
 nOutput= 10;    % 10 labels
 w1= rand(nInput,nHidden)/10;
 w1_0= rand(nHidden,1)/10; %constant
@@ -105,4 +104,5 @@ for k=1:nIter
    rst= sum(Y==labels)/nData
 end
 
-save('newModel.mat','w1','w2','w1_0','w2_0');
+Model= struct('w1',w1,'w2',w2,'w1_0',w1_0,'w2_0',w2_0);
+save('newModel.mat','Model');

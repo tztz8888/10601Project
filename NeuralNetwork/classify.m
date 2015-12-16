@@ -1,12 +1,15 @@
-function [rst]= classify()
+function [Y]= classify(Model,X)
 
 %neural network
-load('newModel.mat');
-load('small_data_batch_5.mat');
 %load('Model.mat');
 %feature= ExtractFeatureForImg(data,vocab);
 %feature= ExtractFeatureForImg(X,vocab);
-feature=GenerateHOGForImg( data );
+w1= Model.w1;
+w2= Model.w2;
+w1_0= Model.w1_0;
+w2_0= Model.w2_0;
+
+feature=GenerateHOGForImg( X );
 
 nTest= length(feature(:,1) );
 nFeature= length(feature(1,:) );
@@ -37,8 +40,8 @@ for i=1:nTest % all test cases
     end
     
     [val idx] = max(output);
-    Y(i)= idx;
+    Y(i)= idx-1;
 end
 
-labels=labels+1;
-rst= sum(Y==labels)/nTest;
+%labels=labels+1;
+%rst= sum(Y==labels)/nTest;
