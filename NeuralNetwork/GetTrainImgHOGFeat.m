@@ -2,7 +2,7 @@ function [TrainFeatures] = GetTrainImgHOGFeat(numTrainBatch)
     load('vocab.mat')
     TrainLabel=zeros(numTrainBatch*1000,1);
     TrainFeatures=zeros(numTrainBatch*1000,496);
-    for i=1:numTrainBatch
+    for i=numTrainBatch:numTrainBatch
         filename=sprintf('small_data_batch_%d',i);
         load(filename);
         for j=1:size(data,1)
@@ -18,6 +18,8 @@ function [TrainFeatures] = GetTrainImgHOGFeat(numTrainBatch)
         clear data;
         clear labels;       
     end
-    save('Model','TrainLabel','TrainFeatures');
+    tmp= TrainFeatures(4001:5000,:);
+    TrainFeatures= tmp;
+    %save('Model','TrainLabel','TrainFeatures');
 
 end
