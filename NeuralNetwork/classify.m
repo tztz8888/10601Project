@@ -1,4 +1,5 @@
-function [rst]= classify(Model,X)
+function [rst]= classify()
+
 %neural network
 load('newModel.mat');
 load('small_data_batch_5.mat');
