@@ -4,8 +4,9 @@ function [rst]= classify()
 load('newModel.mat');
 load('small_data_batch_5.mat');
 %load('Model.mat');
-feature= ExtractFeatureForImg(data,vocab);
+%feature= ExtractFeatureForImg(data,vocab);
 %feature= ExtractFeatureForImg(X,vocab);
+feature=GenerateHOGForImg( data );
 
 nTest= length(feature(:,1) );
 nFeature= length(feature(1,:) );
@@ -18,7 +19,7 @@ output= zeros(nOutput,1);
 Y= zeros(nTest,1);
 
 for i=1:nTest % all test cases
-    
+    i
     for j=1:nHidden %forward to hidden
         tmp=w1_0(j); %compute sigmoid
         for l=1:nInput
