@@ -2,7 +2,7 @@ function [ Y ] = classify( Model,X )
 %UNTITLED5 Summary of this function goes here
 %   Detailed explanation goes here
 
-K=3;    %tune to find the best
+K=5;    %tune to find the best
 nLabel=10; % given
 
 %load('newModel.mat');
@@ -11,7 +11,6 @@ TrainLabel=Model.TrainLabel;
 %load('Model.mat');
 feature= GenerateHOGForImg(X);
 
-
 nTest= size(feature,1);
 nFeature= size(feature,2);
 nTrain= size(TrainFeatures,1);
@@ -19,6 +18,7 @@ distMetrics= zeros(nTest,nTrain);
 Y= zeros(nTest,1);
 
 for i=1:nTest
+    i
     for j=1:nTrain
          distMetrics(i,j)= norm( feature(i,:)-TrainFeatures(j,:) );
     end
@@ -26,6 +26,7 @@ end
 
 
 for i=1:nTest
+    i
     flagKNN= zeros(K,1); % list of the first K nearest neibor Label
     distKNN=zeros(K,1); %list of the first K nearest neibor distance
     for j=1:K

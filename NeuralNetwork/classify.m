@@ -10,7 +10,6 @@ w1_0= Model.w1_0;
 w2_0= Model.w2_0;
 
 feature=GenerateHOGForImg( X );
-
 nTest= length(feature(:,1) );
 nFeature= length(feature(1,:) );
 
@@ -22,7 +21,6 @@ output= zeros(nOutput,1);
 Y= zeros(nTest,1);
 
 for i=1:nTest % all test cases
-    i
     for j=1:nHidden %forward to hidden
         tmp=w1_0(j); %compute sigmoid
         for l=1:nInput
