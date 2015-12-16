@@ -1,28 +1,30 @@
-function [rst]= classify(Model,X)
-%k nearest neighbor
-K=5;    %tune to find the best
+function [ Y ] = classify( Model,X )
+%UNTITLED5 Summary of this function goes here
+%   Detailed explanation goes here
+
+K=3;    %tune to find the best
 nLabel=10; % given
 
-load('newModel.mat');
-load('small_data_batch_5.mat');
+%load('newModel.mat');
+TrainFeatures=Model.TrainFeatures;
+TrainLabel=Model.TrainLabel;
 %load('Model.mat');
-feature = GetTrainImgHOGFeat(5);
-%feature= ExtractFeatureForImg(data,vocab);
-%feature= ExtractFeatureForImg(X,vocab);
+feature= GenerateHOGForImg(X);
 
-nTest= length(feature(:,1) );
-nFeature= length(feature(1,:) );
-nTrain= length(Model(:,1));
+
+nTest= size(feature,1);
+nFeature= size(feature,2);
+nTrain= size(TrainFeatures,1);
 distMetrics= zeros(nTest,nTrain);
 Y= zeros(nTest,1);
-disp 'bbb'
+
 for i=1:nTest
     for j=1:nTrain
-         distMetrics(i,j)= L2Distance( feature(i,:),Model(j,1:nFeature) );
+         distMetrics(i,j)= norm( feature(i,:)-TrainFeatures(j,:) );
     end
-    i
 end
-disp 'aaa'
+
+
 for i=1:nTest
     flagKNN= zeros(K,1); % list of the first K nearest neibor Label
     distKNN=zeros(K,1); %list of the first K nearest neibor distance
@@ -36,7 +38,7 @@ for i=1:nTest
                     distKNN(m)=distKNN(m-1);
                 end
                 distKNN(k)= distMetrics(i,j);
-                flagKNN(k)= Model(j,nFeature+1);
+                flagKNN(k)= TrainLabel(j);
                 break;
             end
         end
@@ -54,7 +56,5 @@ for i=1:nTest
     end
     
     Y(i)= labelMaxCount;
-    disp('one classified')
 end
-
-rst= sum(Y==labels)/nTest;
+end
