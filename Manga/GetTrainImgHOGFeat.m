@@ -1,5 +1,4 @@
 function [TrainFeatures] = GetTrainImgHOGFeat(numTrainBatch)
-    load('vocab.mat')
     TrainLabel=zeros(numTrainBatch*1000,1);
     TrainFeatures=zeros(numTrainBatch*1000,496);
     for i=1:numTrainBatch
@@ -18,6 +17,7 @@ function [TrainFeatures] = GetTrainImgHOGFeat(numTrainBatch)
         clear data;
         clear labels;       
     end
-    save('Model','TrainLabel','TrainFeatures');
+    Model= struct('TrainFeatures',TrainFeatures,'TrainLabel',TrainLabel);
+    save('Model.mat','Model');
 
 end
