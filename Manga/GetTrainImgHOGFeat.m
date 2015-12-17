@@ -18,6 +18,6 @@ function [TrainFeatures] = GetTrainImgHOGFeat(numTrainBatch)
         clear labels;       
     end
     Model= struct('TrainFeatures',TrainFeatures,'TrainLabel',TrainLabel);
-    save('Model.mat','Model');
+    save('FeatureModel5Batch','Model');
 
 end
