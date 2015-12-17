@@ -25,10 +25,6 @@ feature(4001:5000,:)= GenerateHOGForImg( data );
 label(4001:5000)= labels;
 
 nFeature= size(feature,2);
-%nData= size(TrainFeatures,1);
-%nFeature= size(TrainFeatures,2);
-%Y= TrainLabel+1;
-%feature= TrainFeatures;
 
 %define neural network
 nInput= nFeature; % 496 as extracted
@@ -45,7 +41,7 @@ hidden= zeros(nHidden,1);
 output= zeros(nOutput,1);
 %finish defining hidden layer
 
-nIter=1;
+nIter=1;   %tune this value to find best N
 u= 0.1;
 maxAcc=0;
 maxw1=zeros(nInput,nHidden);
@@ -53,6 +49,7 @@ maxw2=zeros(nHidden,nOutput);
 maxw1_0=zeros(nHidden,1);
 maxw2_0=zeros(nOutput,1);
 acc= zeros(5,1);
+
 for k=1:5
     TrainFeature=zeros(4000,nFeature);
     TrainLabel=zeros(4000,1);

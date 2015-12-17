@@ -1,11 +1,8 @@
-function [Model]=train()
+function [Model]=htrain()
 %this is neuralNetwork train
 
 load('Model.mat');
-%feature= ExtractFeature(X); % feature is nData*nFeature matrix
-%nData= size(X,1);
-%nFeature= size(feature,2);
-nData= size(TrainFeatures,1);
+nTrain= size(TrainFeatures,1);
 nFeature= size(TrainFeatures,2);
 Y= TrainLabel+1;
 feature= TrainFeatures;
@@ -20,43 +17,42 @@ nOutput= 10;    % 10 labels
 %w2_0= rand(nOutput,1)/10; %constant
 load('w.mat');
 
-dOutput= zeros(nOutput,1);
-dHidden= zeros(nHidden,1);
-hidden= zeros(nHidden,1);
-output= zeros(nOutput,1);
+dOutput= zeros(1,nOutput);
+dHidden= zeros(1,nHidden);
+hidden= zeros(1,nHidden);
+output= zeros(1,nOutput);
 %finish defining hidden layer
 
-nIter=100;
+nIter=50;
 u= 0.1;
+tOutput= zeros(nTrain,nOutput);
+for i=1:nTrain
+    tOutput(i,Y(i))= 1;
+end
 
+e= ones(1,nHidden)*exp(1);
+o= ones(1,nHidden);
+e2= ones(1,nOutput)*exp(1);
+o2= ones(1,nOutput);
+o3= ones(1,nOutput);
+o4= ones(1,nHidden);
 for k=1:nIter
-    labels= zeros(nData,1);
     disp 'start one inter'
-    for i=1:nData
-       for j=1:nHidden %compute forward from input to hidden
-           tmp=w1_0(j); %compute sigmoid
-           for l=1:nInput
-               tmp= tmp+ w1(l,j)*feature(i,l);
-           end
-           hidden(j)= 1.0/(1.0+exp(-tmp));
-       end
+    labels= zeros(nTrain,1);
+    
+    for i=1:nTrain
        
-       for j=1:nOutput %compute forward from hidden to output
-           tmp=w2_0(j);
-           for l=1:nHidden
-               tmp= tmp+ w2(l,j)*hidden(l);
-           end
-           output(j)= 1/(1+exp(-tmp));
-       end
-      
+       hidden= feature(i,:)* w1+ w1_0';
+       hidden=o./(1+e.^(-hidden));
+       output= hidden*w2+w2_0';
+       output= o2./(1+e2.^(-output) );
+       
        [val idx] = max(output);
        labels(i)=idx;
        
-       t_output= zeros(nOutput,1);
-       t_output(Y(i))= 1;  %only this label is 1; already start label from 1
-       for j=1:nOutput %compute delta for output
-           dOutput(j)= output(j)*(1-output(j))*(t_output(j)-output(j) );
-       end
+       dOutput= output.*(o3-output).*( tOutput(i,:)- output);
+       tmp= dOutput*w2';
+       dHidden= hidden.*(o4-hidden).*tmp;
        
        for j=1:nHidden %compute delta for hidden
            tmp=0;
@@ -95,11 +91,11 @@ for k=1:nIter
        
     end
     rst= sum(Y==labels)/nData
-  
+    
 end
 
 Model= struct('w1',w1,'w2',w2,'w1_0',w1_0,'w2_0',w2_0);
-save('newModel.mat','Model');
+save('hModel.mat','Model');
 % load('small_data_batch_5.mat');
 % [Y]= classify(Model,data);
 % acc= sum(Y==labels)/size(data,1);
