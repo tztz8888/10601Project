@@ -1,8 +1,8 @@
-function [ Y ] = classify( Model,X )
+function [ Y ] = classify( Model,X,K )
 %UNTITLED5 Summary of this function goes here
 %   Detailed explanation goes here
 
-K=3;    %tune to find the best
+%K=5;    %tune to find the best
 nLabel=10; % given
 
 %load('newModel.mat');
@@ -10,7 +10,6 @@ TrainFeatures=Model.TrainFeatures;
 TrainLabel=Model.TrainLabel;
 %load('Model.mat');
 feature= GenerateHOGForImg(X);
-
 
 nTest= size(feature,1);
 nFeature= size(feature,2);

@@ -1,5 +1,4 @@
-function [Model]=train(X,Y)
-
+function [Model]=train()
 %this is neuralNetwork train
 
 load('Model.mat');
@@ -13,30 +12,27 @@ feature= TrainFeatures;
 
 %define neural network
 nInput= nFeature; % 496 as extracted
-nHidden= 100;    % tune this value
+nHidden= 10;    % tune this value
 nOutput= 10;    % 10 labels
-w1= rand(nInput,nHidden)/10;
-w1_0= rand(nHidden,1)/10; %constant
-w2= rand(nHidden,nOutput)/10;
-w2_0= rand(nOutput,1)/10; %constant
+%w1= rand(nInput,nHidden)/10;
+%w1_0= rand(nHidden,1)/10; %constant
+%w2= rand(nHidden,nOutput)/10;
+%w2_0= rand(nOutput,1)/10; %constant
+load('w.mat');
+
 dOutput= zeros(nOutput,1);
 dHidden= zeros(nHidden,1);
-input= zeros(nInput,1);
 hidden= zeros(nHidden,1);
 output= zeros(nOutput,1);
 %finish defining hidden layer
 
-nIter=200;
+nIter=100;
 u= 0.1;
-
-%save('tmp.mat','feature','w1','w1_0','w2_0','w2');
-%return
 
 for k=1:nIter
     labels= zeros(nData,1);
     disp 'start one inter'
     for i=1:nData
-        
        for j=1:nHidden %compute forward from input to hidden
            tmp=w1_0(j); %compute sigmoid
            for l=1:nInput
@@ -52,10 +48,7 @@ for k=1:nIter
            end
            output(j)= 1/(1+exp(-tmp));
        end
-       
-     %  save('tmp.mat','output','hidden');
-     %  return
-  
+      
        [val idx] = max(output);
        labels(i)=idx;
        
@@ -101,8 +94,12 @@ for k=1:nIter
        end
        
     end
-    
-   rst= sum(Y==labels)/nData
+    rst= sum(Y==labels)/nData
+  
 end
 
-save('newModel.mat','w1','w2','w1_0','w2_0');
+Model= struct('w1',w1,'w2',w2,'w1_0',w1_0,'w2_0',w2_0);
+save('newModel.mat','Model');
+% load('small_data_batch_5.mat');
+% [Y]= classify(Model,data);
+% acc= sum(Y==labels)/size(data,1);
